@@ -36,6 +36,12 @@ public class WrapperPlayServerEntityRelativeMoveAndRotation extends PacketWrappe
     private float pitch;
     private boolean onGround;
 
+    public byte posX;
+    public byte posY;
+    public byte posZ;
+
+
+
     public WrapperPlayServerEntityRelativeMoveAndRotation(PacketSendEvent event) {
         super(event);
     }
@@ -60,9 +66,13 @@ public class WrapperPlayServerEntityRelativeMoveAndRotation extends PacketWrappe
             deltaY = readShort() / MODERN_DELTA_DIVISOR;
             deltaZ = readShort() / MODERN_DELTA_DIVISOR;
         } else {
-            deltaX = readByte() / LEGACY_DELTA_DIVISOR;
-            deltaY = readByte() / LEGACY_DELTA_DIVISOR;
-            deltaZ = readByte() / LEGACY_DELTA_DIVISOR;
+            posX = readByte();
+            posY = readByte();
+            posZ = readByte();
+
+            deltaX = posX / LEGACY_DELTA_DIVISOR;
+            deltaY = posY / LEGACY_DELTA_DIVISOR;
+            deltaZ = posZ / LEGACY_DELTA_DIVISOR;
         }
         yaw = readByte() / ROTATION_FACTOR;
         pitch = readByte() / ROTATION_FACTOR;

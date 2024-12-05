@@ -48,6 +48,10 @@ public class WrapperPlayServerEntityTeleport extends PacketWrapper<WrapperPlaySe
     private RelativeFlag relativeFlags;
     private boolean onGround;
 
+    public int posX;
+    public int posY;
+    public int posZ;
+
     public WrapperPlayServerEntityTeleport(PacketSendEvent event) {
         super(event);
     }
@@ -85,8 +89,15 @@ public class WrapperPlayServerEntityTeleport extends PacketWrapper<WrapperPlaySe
             this.relativeFlags = new RelativeFlag(this.readInt());
         } else {
             this.entityID = this.serverVersion.isNewerThanOrEquals(ServerVersion.V_1_8) ? this.readVarInt() : this.readInt();
-            Vector3d position = this.serverVersion.isNewerThanOrEquals(ServerVersion.V_1_9) ? Vector3d.read(this) :
-                    new Vector3d(this.readInt() / 32d, this.readInt() / 32d, this.readInt() / 32d);
+
+            if (this.serverVersion.isOlderThanOrEquals(ServerVersion.V_1_8_8)) {
+                this.posX = this.readInt();
+                this.posY = this.readInt();
+                this.posZ = this.readInt();
+            }
+
+            Vector3d position = this.serverVersion.isNewerThanOrEquals(ServerVersion.V_1_9) ? Vector3d.read(this)
+                    : new Vector3d(this.posX / 32d, this.posY / 32d, this.posZ / 32d);
             float yaw = this.readByte() / ROTATION_FACTOR;
             float pitch = this.readByte() / ROTATION_FACTOR;
             this.values = new EntityPositionData(position, Vector3d.zero(), yaw, pitch);

@@ -71,7 +71,10 @@ public class WrapperPlayClientClickWindow extends PacketWrapper<WrapperPlayClien
         } else {
             this.actionNumber = Optional.empty();
         }
+
         int clickTypeIndex = readVarInt();
+
+        clickTypeIndex = Math.max(0, Math.min(clickTypeIndex, WindowClickType.VALUES.length - 1));
         this.windowClickType = WindowClickType.VALUES[clickTypeIndex];
         if (v1_17) {
             this.slots = Optional.of(readMap(

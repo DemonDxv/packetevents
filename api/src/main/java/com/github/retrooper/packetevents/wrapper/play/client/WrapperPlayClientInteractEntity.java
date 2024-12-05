@@ -64,6 +64,9 @@ public class WrapperPlayClientInteractEntity extends PacketWrapper<WrapperPlayCl
         } else {
             this.entityID = readVarInt();
             int typeIndex = readVarInt();
+
+            typeIndex = Math.max(0, Math.min(typeIndex, InteractAction.VALUES.length - 1));
+
             this.interactAction = InteractAction.VALUES[typeIndex];
             if (interactAction == InteractAction.INTERACT_AT) {
                 float x = readFloat();

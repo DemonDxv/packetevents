@@ -64,7 +64,10 @@ public class WrapperPlayClientResourcePackStatus extends PacketWrapper<WrapperPl
         } else {
             this.hash = "";
         }
+
         int resultIndex = readVarInt();
+        resultIndex = Math.max(0, Math.min(resultIndex, Result.VALUES.length - 1));
+
         this.result = Result.VALUES[resultIndex];
     }
 

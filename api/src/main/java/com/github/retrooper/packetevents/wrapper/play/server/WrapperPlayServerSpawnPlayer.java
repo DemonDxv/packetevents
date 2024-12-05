@@ -45,6 +45,10 @@ public class WrapperPlayServerSpawnPlayer extends PacketWrapper<WrapperPlayServe
     private float yaw;
     private float pitch;
 
+    public int posX;
+    public int posY;
+    public int posZ;
+
     @Deprecated
     private ItemType item;
     private List<EntityData> entityMetadata;
@@ -88,7 +92,10 @@ public class WrapperPlayServerSpawnPlayer extends PacketWrapper<WrapperPlayServe
         if (v1_9) {
             position = new Vector3d(readDouble(), readDouble(), readDouble());
         } else {
-            position = new Vector3d(readInt() / 32.0, readInt() / 32.0, readInt() / 32.0);
+            this.posX = this.readInt();
+            this.posY = this.readInt();
+            this.posZ = this.readInt();
+            this.position = new Vector3d((double)this.posX / 32.0, (double)this.posY / 32.0, (double)this.posZ / 32.0);
         }
         yaw = readByte() / ROTATION_DIVISOR;
         pitch = readByte() / ROTATION_DIVISOR;

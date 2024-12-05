@@ -32,6 +32,11 @@ public class WrapperPlayServerEntityRelativeMove extends PacketWrapper<WrapperPl
     private double deltaX;
     private double deltaY;
     private double deltaZ;
+
+    public byte posX;
+    public byte posY;
+    public byte posZ;
+
     private boolean onGround;
 
     public WrapperPlayServerEntityRelativeMove(PacketSendEvent event) {
@@ -56,9 +61,13 @@ public class WrapperPlayServerEntityRelativeMove extends PacketWrapper<WrapperPl
             deltaZ = readShort() / MODERN_DELTA_DIVISOR;
         }
         else {
-            deltaX = readByte() / LEGACY_DELTA_DIVISOR;
-            deltaY = readByte() / LEGACY_DELTA_DIVISOR;
-            deltaZ = readByte() / LEGACY_DELTA_DIVISOR;
+            posX = readByte();
+            posY = readByte();
+            posZ = readByte();
+
+            deltaX = posX / LEGACY_DELTA_DIVISOR;
+            deltaY = posY / LEGACY_DELTA_DIVISOR;
+            deltaZ = posZ / LEGACY_DELTA_DIVISOR;
         }
         onGround = readBoolean();
     }
